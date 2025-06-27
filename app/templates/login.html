@@ -6,5 +6,12 @@
 
 {% block body %}
     <h1>Sistema Portaria</h1>
-
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.usuario.label }}
+        {{ form.usuario }}
+        {{ form.senha.label }}
+        {{ form.senha }}
+        {{ form.botao_login }}
+    </form>
 {% endblock %}
