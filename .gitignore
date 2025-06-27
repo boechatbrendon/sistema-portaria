@@ -1,0 +1,13 @@
+# Ignorar arquivos temporários do Python
+__pycache__/
+*.pyc
+
+# Ignorar banco de dados e configurações locais
+instance/
+*.db
+.env
+
+# Ignorar arquivos de editores
+.vscode/
+.idea/
+*.swp
