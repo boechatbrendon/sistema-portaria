@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    SistemaPortaria - Cadastro Moradores 
+{% endblock %}
+
+{% block body %}
+
+    <h1>Cadastro de Moradores</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.nome }}
+        {{ form.email }}
+        {{ form.celular }}
+        {{ form.cpf }}
+        {{ form.unidade }}
+        {{ form.botao_cadastra }}
+
+    </form>
+
+{% endblock %}

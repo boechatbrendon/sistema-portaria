@@ -1,7 +1,7 @@
-from app import app
+from app import app, database
 from flask import render_template, flash, redirect, url_for
-from app.forms import Formlogin
-from app.models import Usuario
+from app.forms import Formlogin, FormMorador
+from app.models import Usuario, Unidade, Morador
 from flask_login import login_user, login_required, logout_user, current_user
 
 
@@ -31,3 +31,29 @@ def logout():
     logout_user()
     flash('Usuário desconectado.', 'danger')
     return redirect(url_for('login'))
+
+
+@app.route('/cadastro_morador', methods=['GET', 'POST'])
+@login_required
+def cadastro_morador():
+    form = FormMorador()
+    unidades = Unidade.query.all()
+
+    form.unidade.choices = [(u.id, f'{u.numero} - Bloco {u.bloco}') for u in unidades]
+
+    if form.validate_on_submit():
+        morador = Morador(
+            nome=form.nome.data,
+            cpf=form.cpf.data,
+            email=form.email.data,
+            celular=form.celular.data,
+            unidade_id=form.unidade.data
+        )
+        database.session.add(morador)
+        database.session.commit()
+        flash("Morador cadastrado com sucesso", "success")
+        return redirect(url_for('home'))
+    else:
+        flash("Falha ao Cadastrar", "error")
+
+    return render_template('cadastro_morador.html', form = form)
