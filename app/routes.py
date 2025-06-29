@@ -89,3 +89,11 @@ def listar_unidades():
     unidades = Unidade.query.all()
 
     return render_template('unidades.html', unidades=unidades)
+
+
+@app.route('/unidade/<int:id>')
+@login_required
+def moradores_unidade(id):
+    unidade = Unidade.query.get(id)
+    moradores = Morador.query.filter_by(unidade_id=id).all()
+    return render_template('moradores_unidade.html', unidade=unidade, moradores=moradores)

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    SistemaPortaria - Unidades - Moradores
+{% endblock %}
+
+
+{% block body %}
+<div class="max-w-7xl mx-auto px-4 mt-8">
+  <div class="bg-white shadow-md rounded-2xl p-6 sm:p-8">
+    
+
+    <h3 class="text-center text-xl sm:text-2xl font-bold text-sky-600 mb-6">
+      Moradores da Unidade {{ unidade.numero }} - Bloco {{ unidade.bloco }}
+    </h3>
+
+    {% if moradores %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for m in moradores %}
+        <div class="bg-white border border-gray-200 shadow-sm rounded-xl p-5 flex flex-col h-full">
+          
+          <h5 class="text-center text-sky-600 font-semibold text-lg mb-4 flex items-center justify-center gap-2">
+            {{ m.nome }}
+          </h5>
+          
+
+          <div class="flex flex-col sm:flex-row sm:items-start items-center gap-4">
+            <a href="" class="flex-shrink-0">
+              <img src="../static/fotos_moradores/{{ m.foto }}" alt="Foto do Morador"
+                   class="w-20 h-20 rounded-full border-2 border-sky-500 object-cover shadow-sm" />
+            </a>
+
+            <div class="text-center sm:text-left text-sm text-gray-700">
+              <p class="mb-1">
+                <span class="block text-gray-500 text-xs">CPF:</span>
+                <span class="font-semibold">{{ m.cpf }}</span>
+              </p>
+              <p class="mb-1 break-words">
+                <span class="block text-gray-500 text-xs">Email:</span>
+                <span class="font-semibold">{{ m.email }}</span>
+              </p>
+              <p>
+                <span class="block text-gray-500 text-xs">Celular:</span>
+                <span class="font-semibold">{{ m.celular }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="mt-6 text-center text-gray-500 bg-sky-50 p-4 rounded-md border border-sky-200">
+        Nenhum morador cadastrado nesta unidade.
+      </div>
+    {% endif %}
+
+    <div class="mt-8 text-center">
+      <a href="{{ url_for('listar_unidades') }}"
+         class="inline-flex items-center gap-2 px-6 py-2 text-sm font-medium text-sky-600 border border-sky-500 rounded-full hover:bg-sky-500 hover:text-white transition">
+        Voltar para Unidades
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

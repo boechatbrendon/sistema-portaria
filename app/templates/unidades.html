@@ -8,7 +8,6 @@
 <div class="max-w-7xl mx-auto mt-10 px-4">
   <div class="bg-white shadow-lg rounded-2xl p-6 sm:p-8 border-0">
 
-    <!-- Título -->
     <h3 class="text-center text-2xl font-bold text-sky-600 mb-6 flex items-center justify-center gap-2">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16M4 6h16M4 14h16M4 18h16" />
@@ -32,7 +31,7 @@
               </h5>
             </div>
             <div class="text-center mt-auto">
-              <a href=""
+              <a href="{{ url_for('moradores_unidade', id=unidade.id) }}"
                 class="inline-flex items-center gap-2 px-4 py-2 border border-sky-500 text-sky-600 hover:bg-sky-500 hover:text-white rounded-full text-sm font-medium transition">
                 Ver Moradores
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -53,11 +52,11 @@
 <script>
   document.getElementById('searchInput').addEventListener('input', function () {
     const termo = this.value.toLowerCase();
-    const unidades = document.querySelectorAll('.unidade-item');
+    const unidades = document.querySelectorAll('.unidade-item')
 
     unidades.forEach(function (item) {
-      const texto = item.textContent.toLowerCase();
-      item.style.display = texto.includes(termo) ? 'block' : 'none';
+      const texto = item.textContent.toLowerCase()
+      item.style.display = texto.includes(termo) ? 'block' : 'none'
     })
   })
 </script>
