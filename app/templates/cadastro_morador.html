@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block body %}
-
+    {% if form.email.errors or form.cpf.errors %}
+        {% for erro in form.email.errors or form.cpf.errors %}
+            {{ erro }}
+        {% endfor %}
+    {% endif %}        
     <h1>Cadastro de Moradores</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}

@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, ValidationError
+from app.models import Morador
 
 
 class Formlogin(FlaskForm):
@@ -16,3 +17,14 @@ class FormMorador(FlaskForm):
     celular = StringField('Celular', validators=[DataRequired()], render_kw={"placeholder": "Digite o numero de celular"})
     unidade = SelectField('Unidade', choices=[], coerce=int)
     botao_cadastra = SubmitField('Cadastra')
+
+    def validate_email(self, email):
+        morador = Morador.query.filter_by(email=email.data).first()
+        if morador:
+            raise ValidationError('Ja existe um Morador cadastrado com esse email, Porfavor adicione outro E-mail')
+        
+    def validate_cpf(self, cpf):
+        cpf_limpo = ''.join(filter(str.isdigit, cpf.data))
+        morador = Morador.query.filter_by(cpf=cpf_limpo).first()
+        if morador:
+            raise ValidationError('Morador com o CPF informado Ja esta Cadastrado')
