@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    SistemaPortaria - Unidades 
+{% endblock %}
+
+{% block body %}
+<div class="max-w-7xl mx-auto mt-10 px-4">
+  <div class="bg-white shadow-lg rounded-2xl p-6 sm:p-8 border-0">
+
+    <!-- Título -->
+    <h3 class="text-center text-2xl font-bold text-sky-600 mb-6 flex items-center justify-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16M4 6h16M4 14h16M4 18h16" />
+      </svg>
+      Lista de Unidades
+    </h3>
+
+    <div class="mb-6">
+      <input type="number" id="searchInput"
+        class="w-full px-5 py-3 text-sm border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition"
+        placeholder="Buscar por número ou bloco...">
+    </div>
+
+    {% if unidades %}
+      <div id="unidadesContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for unidade in unidades %}
+          <div class="bg-white rounded-2xl shadow hover:shadow-md transition p-5 flex flex-col justify-between unidade-item">
+            <div class="text-center mb-4">
+              <h5 class="text-sky-600 font-bold text-lg flex items-center justify-center gap-2">
+                Unidade {{ unidade.numero }}-{{ unidade.bloco }}
+              </h5>
+            </div>
+            <div class="text-center mt-auto">
+              <a href=""
+                class="inline-flex items-center gap-2 px-4 py-2 border border-sky-500 text-sky-600 hover:bg-sky-500 hover:text-white rounded-full text-sm font-medium transition">
+                Ver Moradores
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="mt-6 text-center text-gray-500 bg-sky-50 p-4 rounded-md border border-sky-200">
+        Nenhuma unidade cadastrada ainda.
+      </div>
+    {% endif %}
+  </div>
+</div>
+<script>
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const termo = this.value.toLowerCase();
+    const unidades = document.querySelectorAll('.unidade-item');
+
+    unidades.forEach(function (item) {
+      const texto = item.textContent.toLowerCase();
+      item.style.display = texto.includes(termo) ? 'block' : 'none';
+    })
+  })
+</script>
+{% endblock %}

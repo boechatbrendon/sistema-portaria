@@ -81,3 +81,11 @@ def cadastro_morador():
 
 
     return render_template('cadastro_morador.html', form = form)
+
+
+@app.route('/unidades')
+@login_required
+def listar_unidades():
+    unidades = Unidade.query.all()
+
+    return render_template('unidades.html', unidades=unidades)
