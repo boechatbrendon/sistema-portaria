@@ -1,0 +1,67 @@
+<header class="bg-sky-500 dark:bg-gray-800 shadow-md sticky top-0 z-50">
+  <div class="container mx-auto flex items-center justify-between px-4 py-3">
+    <a href="{{ url_for('home') }}" class="flex items-center text-white hover:text-gray-200">
+      <span class="text-2xl font-bold text-white">Portaria</span>
+    </a>
+
+    <button id="menu-toggle"
+            class="md:hidden text-white hover:text-gray-200 focus:outline-none transition-colors duration-300">
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"/>
+      </svg>
+    </button>
+
+
+    <nav class="hidden md:block">
+      <ul class="flex space-x-6 text-white">
+        <li><a href="{{ url_for('home') }}" class="hover:text-gray-200">Dashboard</a></li>
+        <li><a href="{{ url_for('listar_unidades') }}" class="hover:text-gray-200">Moradores</a></li>
+        <li class="relative group">
+          <a href="#" class="hover:text-gray-200">Encomendas</a>
+          <ul class="absolute hidden group-hover:block bg-white dark:bg-gray-700 shadow-md py-2 mt-1 rounded-md w-48">
+            <li><a href="" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Nova Encomenda</a></li>
+            <li><a href="" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Baixa</a></li>
+          </ul>
+        </li>
+        <li><a href="{{ url_for('logout') }}" class="hover:text-red-300">Sair</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <nav id="mobile-menu" class="hidden md:hidden bg-sky-100 dark:bg-gray-900 border-t dark:border-gray-700">
+    <ul class="px-4 py-2 space-y-2 text-gray-800 dark:text-white">
+      <li><a href="{{ url_for('home') }}" class="block py-2 hover:text-sky-600">Dashboard</a></li>
+      <li><a href="{{ url_for('listar_unidades') }}" class="block py-2 hover:text-sky-600">Moradores</a></li>
+      <li>
+        <button id="services-dropdown-toggle" class="w-full text-left py-2 hover:text-sky-600">Encomendas</button>
+        <ul id="services-dropdown" class="hidden pl-4">
+          <li><a href="" class="block py-2 hover:text-sky-600">Nova</a></li>
+          <li><a href="" class="block py-2 hover:text-sky-600">Baixa</a></li>
+        </ul>
+      </li>
+      <li><a href="{{ url_for('logout') }}" class="block py-2 text-red-600 hover:text-red-800">Sair</a></li>
+    </ul>
+  </nav>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const menuToggle = document.getElementById('menu-toggle')
+      const mobileMenu = document.getElementById('mobile-menu')
+      const servicesToggle = document.getElementById('services-dropdown-toggle')
+      const servicesDropdown = document.getElementById('services-dropdown')
+
+      if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden')
+        })
+      }
+
+      if (servicesToggle) {
+        servicesToggle.addEventListener('click', () => {
+          servicesDropdown.classList.toggle('hidden')
+        })
+      }
+    })
+  </script>
+</header>
