@@ -3,6 +3,8 @@ from flask import render_template, flash, redirect, url_for
 from app.forms import Formlogin, FormMorador
 from app.models import Usuario, Unidade, Morador
 from flask_login import login_user, login_required, logout_user, current_user
+from werkzeug.utils import secure_filename
+import os
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -32,6 +34,15 @@ def logout():
     flash('Usuário desconectado.', 'danger')
     return redirect(url_for('login'))
 
+def salvar_foto(arquivo):
+    nome_seguro = secure_filename(arquivo.filename)
+    caminho = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], nome_seguro)
+    arquivo.save(caminho)
+    return nome_seguro
+
+def limpar_mascara(input):
+    input = ''.join(filter(str.isdigit, input))
+    return input
 
 @app.route('/cadastro_morador', methods=['GET', 'POST'])
 @login_required
@@ -42,13 +53,21 @@ def cadastro_morador():
     form.unidade.choices = [(u.id, f'{u.numero} - Bloco {u.bloco}') for u in unidades]
 
     if form.validate_on_submit():
-        celular = form.celular.data
-        cpf = form.cpf.data
+        celular = limpar_mascara(form.celular.data)
+        cpf = limpar_mascara(form.cpf.data)
 
-        celular = ''.join(filter(str.isdigit, celular))
-        cpf = ''.join(filter(str.isdigit, cpf))
-        
-        morador = Morador(
+        if form.foto.data:
+            foto_morador = salvar_foto(form.foto.data)
+            morador = Morador(
+            nome=form.nome.data,
+            cpf=cpf,
+            email=form.email.data,
+            celular=celular,
+            unidade_id=form.unidade.data,
+            foto=foto_morador
+        )
+        else:
+            morador = Morador(
             nome=form.nome.data,
             cpf=cpf,
             email=form.email.data,

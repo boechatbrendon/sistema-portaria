@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Email, ValidationError
 from app.models import Morador
-
+from flask_wtf.file import FileField, FileAllowed
 
 class Formlogin(FlaskForm):
     usuario = StringField('Usuario', validators=[DataRequired()], render_kw={'placeholder': 'Usuario'})
@@ -16,6 +16,7 @@ class FormMorador(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()], render_kw={"placeholder": "Digite o E-mail"})
     celular = StringField('Celular', validators=[DataRequired()], render_kw={"placeholder": "Digite o numero de celular"})
     unidade = SelectField('Unidade', choices=[], coerce=int)
+    foto = FileField('Foto Perfil', validators=[FileAllowed(['jpg', 'png'])])
     botao_cadastra = SubmitField('Cadastra')
 
     def validate_email(self, email):

@@ -11,13 +11,14 @@
         {% endfor %}
     {% endif %}        
     <h1>Cadastro de Moradores</h1>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         {{ form.nome }}
         {{ form.email }}
         {{ form.celular(id="celular_input") }}
         {{ form.cpf(id="cpf_input") }}
         {{ form.unidade }}
+        {{ form.foto }}
         {{ form.botao_cadastra }}
 
     </form>

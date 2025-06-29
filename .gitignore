@@ -11,3 +11,6 @@ instance/
 .vscode/
 .idea/
 *.swp
+
+# Ignorar imagens dos moradores
+static/fotos_moradores/
