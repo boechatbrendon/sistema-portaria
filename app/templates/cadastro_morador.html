@@ -11,11 +11,26 @@
         {{ form.hidden_tag() }}
         {{ form.nome }}
         {{ form.email }}
-        {{ form.celular }}
-        {{ form.cpf }}
+        {{ form.celular(id="celular_input") }}
+        {{ form.cpf(id="cpf_input") }}
         {{ form.unidade }}
         {{ form.botao_cadastra }}
 
     </form>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.2.0/lib/vanilla-masker.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var celular_input = document.getElementById('celular_input')
+            var cpf_input = document.getElementById('cpf_input')
 
-{% endblock %}
+
+            if (celular_input) {
+                VMasker(celular_input).maskPattern("(99) 9 9999-9999")
+            }
+            if (cpf_input){
+                VMasker(cpf_input).maskPattern("999.999.999-99")
+            }
+        })
+    </script>
+
+{% endblock %}  

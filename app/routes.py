@@ -42,18 +42,23 @@ def cadastro_morador():
     form.unidade.choices = [(u.id, f'{u.numero} - Bloco {u.bloco}') for u in unidades]
 
     if form.validate_on_submit():
+        celular = form.celular.data
+        cpf = form.cpf.data
+
+        celular = ''.join(filter(str.isdigit, celular))
+        cpf = ''.join(filter(str.isdigit, cpf))
+        
         morador = Morador(
             nome=form.nome.data,
-            cpf=form.cpf.data,
+            cpf=cpf,
             email=form.email.data,
-            celular=form.celular.data,
+            celular=celular,
             unidade_id=form.unidade.data
         )
         database.session.add(morador)
         database.session.commit()
         flash("Morador cadastrado com sucesso", "success")
         return redirect(url_for('home'))
-    else:
-        flash("Falha ao Cadastrar", "error")
+
 
     return render_template('cadastro_morador.html', form = form)
