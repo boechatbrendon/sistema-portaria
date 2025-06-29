@@ -5,37 +5,91 @@
 {% endblock %}
 
 {% block body %}
-    {% if form.email.errors or form.cpf.errors %}
-        {% for erro in form.email.errors or form.cpf.errors %}
-            {{ erro }}
+<div class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-md bg-white rounded-xl shadow-md p-6 sm:p-8">
+
+    <div class="flex justify-center mb-4">
+      <label for="foto_input" class="cursor-pointer group">
+        <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-200 border-2 border-sky-500 group-hover:border-sky-600 transition duration-200">
+          <img id="foto_preview" src="../static/fotos_moradores/default.png" class="object-cover w-full h-full" alt="Foto do morador">
+        </div>
+        <p class="text-xs text-center text-gray-500 mt-2 group-hover:text-gray-700">Clique para enviar foto</p>
+      </label>
+    </div>
+
+    <h2 class="text-center text-2xl font-bold text-gray-800 mb-6">Cadastro de Morador</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-5">
+      {{ form.hidden_tag() }}
+
+      <div>
+        <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
+        {{ form.nome(class="mt-1 block w-full rounded-lg border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200 focus:ring-opacity-50", id="nome") }}
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        {{ form.email(class="mt-1 block w-full rounded-lg border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200 focus:ring-opacity-50", id="email") }}
+        {% for error in form.email.errors %}
+          <p class="text-xs text-red-500 mt-1">{{ error }}</p>
         {% endfor %}
-    {% endif %}        
-    <h1>Cadastro de Moradores</h1>
-    <form action="" method="post" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        {{ form.nome }}
-        {{ form.email }}
-        {{ form.celular(id="celular_input") }}
-        {{ form.cpf(id="cpf_input") }}
-        {{ form.unidade }}
-        {{ form.foto }}
-        {{ form.botao_cadastra }}
+      </div>
 
+      <div>
+        <label for="celular_input" class="block text-sm font-medium text-gray-700">Celular</label>
+        {{ form.celular(class="mt-1 block w-full rounded-lg border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200 focus:ring-opacity-50", id="celular_input") }}
+      </div>
+
+      <div>
+        <label for="cpf_input" class="block text-sm font-medium text-gray-700">CPF</label>
+        {{ form.cpf(class="mt-1 block w-full rounded-lg border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200 focus:ring-opacity-50", id="cpf_input") }}
+        {% for error in form.cpf.errors %}
+          <p class="text-xs text-red-500 mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div>
+        <label for="unidade" class="block text-sm font-medium text-gray-700">Unidade</label>
+        {{ form.unidade(class="mt-1 block w-full rounded-lg border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-200 focus:ring-opacity-50", id="unidade") }}
+      </div>
+
+      <input id="foto_input" type="file" accept="image/*"
+             class="hidden"
+             name="foto"
+             onchange="previewFoto(event)">
+      {{ form.foto(class="hidden", id="foto") }}
+
+      <div>
+        {{ form.botao_cadastra(class="w-full bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium py-2 rounded-md shadow-sm transition duration-150") }}
+      </div>
     </form>
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.2.0/lib/vanilla-masker.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var celular_input = document.getElementById('celular_input')
-            var cpf_input = document.getElementById('cpf_input')
+  </div>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.2.0/lib/vanilla-masker.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var celular_input = document.getElementById('celular_input')
+    var cpf_input = document.getElementById('cpf_input')
 
-            if (celular_input) {
-                VMasker(celular_input).maskPattern("(99) 9 9999-9999")
-            }
-            if (cpf_input){
-                VMasker(cpf_input).maskPattern("999.999.999-99")
-            }
-        })
-    </script>
+    if (celular_input) {
+      VMasker(celular_input).maskPattern("(99) 9 9999-9999")
+    }
+    if (cpf_input) {
+      VMasker(cpf_input).maskPattern("999.999.999-99")
+    }
+  })
 
-{% endblock %}  
+  function previewFoto(event) {
+    const file = event.target.files[0]
+    const preview = document.getElementById('foto_preview')
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = function (e) {
+        preview.src = e.target.result
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+</script>
+{% endblock %}
