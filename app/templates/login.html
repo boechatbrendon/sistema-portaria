@@ -5,13 +5,40 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Sistema Portaria</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        {{ form.usuario.label }}
-        {{ form.usuario }}
-        {{ form.senha.label }}
-        {{ form.senha }}
-        {{ form.botao_login }}
-    </form>
+<div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center px-4 sm:py-12">
+  <div class="relative w-full max-w-md mx-auto">
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
+    </div>
+    <div class="relative px-6 py-10 bg-white shadow-lg rounded-xl sm:rounded-3xl sm:p-20">
+      <div class="w-full">
+        <div class="mb-6">
+          <h1 class="text-2xl font-semibold text-center text-gray-800">Sistema Portaria</h1>
+        </div>
+        <form method="post" class="space-y-6">
+          {{ form.hidden_tag() }}
+          
+          <div class="relative">
+            {{ form.usuario(class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-cyan-600", placeholder="Email address", autocomplete="off", id="email") }}
+            <label for="email" class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+              {{ form.usuario.label }}
+            </label>
+          </div>
+
+          <div class="relative">
+            {{ form.senha(class="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-cyan-600", placeholder="Password", autocomplete="off", id="password", type="password") }}
+            <label for="password" class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">
+              {{ form.senha.label }}
+            </label>
+          </div>
+
+          <div>
+            {{ form.botao_login(class="w-full bg-cyan-500 hover:bg-cyan-600 text-white rounded-md px-4 py-2 transition-colors") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
