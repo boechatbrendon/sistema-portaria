@@ -29,3 +29,9 @@ class FormMorador(FlaskForm):
         morador = Morador.query.filter_by(cpf=cpf_limpo).first()
         if morador:
             raise ValidationError('Morador com o CPF informado Ja esta Cadastrado')
+        
+    
+class FormEncomenda(FlaskForm):
+    unidade = SelectField('Unidade', choices=[], coerce=int)
+    nf = StringField('Nota Fiscal', validators=[DataRequired()])
+    botao_cadastra =SubmitField('Cadastra Encomenda')

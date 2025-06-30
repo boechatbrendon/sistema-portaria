@@ -1,10 +1,11 @@
 from app import app, database
-from flask import render_template, flash, redirect, url_for
-from app.forms import Formlogin, FormMorador
-from app.models import Usuario, Unidade, Morador
+from flask import render_template, flash, redirect, url_for, jsonify, request
+from app.forms import Formlogin, FormMorador, FormEncomenda
+from app.models import Usuario, Unidade, Morador, Encomenda
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 import os
+from datetime import datetime
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -97,3 +98,38 @@ def moradores_unidade(id):
     unidade = Unidade.query.get(id)
     moradores = Morador.query.filter_by(unidade_id=id).all()
     return render_template('moradores_unidade.html', unidade=unidade, moradores=moradores)
+
+@app.route('/moradores-da-unidade/<int:unidade_id>')
+@login_required
+def moradores_da_unidade(unidade_id):
+    moradores = Morador.query.filter_by(unidade_id=unidade_id).all()
+    moradores_json = [{"id": m.id, "nome": m.nome} for m in moradores]
+    return jsonify(moradores_json)
+
+@app.route('/cadastra_encomenda', methods=['GET', 'POST'])
+@login_required
+def cadastra_encomenda():
+    unidades = Unidade.query.all()
+
+    if request.method == 'POST':
+        morador_id = request.form.get('morador_id')
+        nf = request.form.get('nf')
+        porteiro = current_user.nome
+
+        if not morador_id or not nf:
+            flash("Todos os campos são obrigatórios!", "danger")
+            return redirect(url_for('nova_encomenda'))
+
+        encomenda = Encomenda(
+            morador_id=int(morador_id),
+            nf=nf,
+            porteiro=porteiro,
+            data_recebimento=datetime.now()
+        )
+        database.session.add(encomenda)
+        database.session.commit()
+
+        flash("Encomenda cadastrada com sucesso!", "success")
+        return redirect(url_for('home'))
+    
+    return render_template('cadastra_encomenda.html', unidades=unidades)
