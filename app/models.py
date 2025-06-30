@@ -29,3 +29,17 @@ class Morador(database.Model):
     foto = database.Column(database.String, default='default.png')
 
     unidade_id = database.Column(database.Integer, database.ForeignKey('unidade.id'), nullable=False)
+
+
+class Encomenda(database.Model):
+    id = database.Column(database.Integer, primary_key=True)
+    nf = database.Column(database.String(20), nullable=False)
+    data_recebimento = database.Column(database.DateTime, nullable=True)
+    porteiro = database.Column(database.String(20), nullable=False)
+    
+    data_retirada = database.Column(database.DateTime, nullable=True)
+    retirado_por = database.Column(database.String(10), nullable=True)
+    status = database.Column(database.String(20), default='Pendente')
+
+    morador_id = database.Column(database.Integer, database.ForeignKey('morador.id'), nullable=False)
+    morador = database.relationship('Morador', backref='encomendas')
