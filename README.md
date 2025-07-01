@@ -37,7 +37,7 @@ O **Sistema de Portaria** foi projetado para facilitar a rotina em portarias de 
 
 ## 📁 Estrutura do Projeto
 
-```bash
+
 SistemaPortaria/
 │
 ├── app/
@@ -97,12 +97,7 @@ python main.py
 
 ## 📸 Imagens do Sistema *(recomendado)*
 
-> Adicione aqui prints ou GIFs do sistema funcionando, usando:
->
-> ```markdown
-> ![Home](img/home.png)
-> ![Cadastro](img/cadastro_morador.png)
-> ```
+
 
 ---
 
@@ -110,8 +105,8 @@ python main.py
 
 **Brendon Boechat**
 Desenvolvedor Full Stack em formação
-🔗 GitHub: [@seu-usuario](https://github.com/seu-usuario)
-📧 Email: [seu-email@email.com](mailto:seu-email@email.com)
+🔗 GitHub: [@boechatbrendon](https://github.com/boechatbrendon)
+📧 Email: [boechatbrendon1@email.com](mailto:boechatbrendon@gmail.com)
 
 ---
 
