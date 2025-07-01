@@ -37,12 +37,11 @@ O **Sistema de Portaria** foi projetado para facilitar a rotina em portarias de 
 
 ## 📁 Estrutura do Projeto
 
-```
-
+```bash
 SistemaPortaria/
 │
 ├── app/
-│   ├── **init**.py
+│   ├── __init__.py
 │   ├── models.py
 │   ├── forms.py
 │   ├── routes/
@@ -52,8 +51,6 @@ SistemaPortaria/
 ├── main.py
 ├── requirements.txt
 └── README.md
-
-````
 
 ---
 
