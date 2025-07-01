@@ -6,7 +6,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 import os
 from datetime import datetime, time
-
+from collections import defaultdict
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -140,7 +140,12 @@ def cadastra_encomenda():
 def encomendas_pendentes():
     encomendas = Encomenda.query.filter_by(status='Pendente').all()
     hora = datetime.now()
-    return render_template('baixa_encomenda.html', encomendas=encomendas, hora=hora)
+    agrupadas = defaultdict(list)
+
+    for encomenda in encomendas:
+        chave = (encomenda.morador.unidade.numero, encomenda.morador.unidade.bloco)
+        agrupadas[chave].append(encomenda)
+    return render_template('baixa_encomenda.html', encomendas=encomendas, encomendas_agrupadas=agrupadas, hora=hora)
 
 
 @app.route("/dar-baixa/<int:id>", methods=["GET", "POST"])

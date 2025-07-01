@@ -17,17 +17,17 @@ SistemaPortaria - Baixar Encomenda
     </svg>
   </div>
 
-  {% for encomenda in encomendas %}
+{% for (numero, bloco), encomendas in encomendas_agrupadas.items() %}
   <div class="bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden mb-6 transition-all"
-       data-search="{{ encomenda.morador.nome }} {{ encomenda.nf }} {{ encomenda.morador.unidade.numero }} {{ encomenda.morador.unidade.bloco }}">
-    
+       data-search="{{ numero }} {{ bloco }}">
     <div class="flex justify-between items-center bg-sky-600 text-white px-4 py-3">
       <h5 class="font-semibold text-sm sm:text-base">
-        🏢 Unidade {{ encomenda.morador.unidade.numero }} - {{ encomenda.morador.unidade.bloco }}
+        🏢 Unidade {{ numero }} - {{ bloco }}
       </h5>
     </div>
 
-    <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3">
+    {% for encomenda in encomendas %}
+    <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3" data-search="{{ encomenda.morador.nome }} {{ encomenda.nf }} {{ encomenda.morador.unidade.numero }} {{ encomenda.morador.unidade.bloco }}">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-gray-800">
         <div>
           <h6 class="text-gray-800 dark:text-gray-100 font-semibold text-sm">📄 NF: {{ encomenda.nf }}</h6>
@@ -51,7 +51,7 @@ SistemaPortaria - Baixar Encomenda
       </div>
     </div>
 
-
+    <hr>
     <div id="modalBaixa{{ encomenda.id }}" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md p-6 relative">
         <button onclick="closeModal('modalBaixa{{ encomenda.id }}')" class="absolute top-2 right-3 text-gray-500 hover:text-red-600 text-xl">&times;</button>
@@ -79,9 +79,9 @@ SistemaPortaria - Baixar Encomenda
         </form>
       </div>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
+{% endfor %}
 
 <script>
   function openModal(id) {
