@@ -104,7 +104,7 @@ python main.py
 ## 👤 Autor
 
 **Brendon Boechat**
-Desenvolvedor Full Stack em formação
+Desenvolvedor Backend em formação
 🔗 GitHub: [@boechatbrendon](https://github.com/boechatbrendon)
 📧 Email: [boechatbrendon1@email.com](mailto:boechatbrendon@gmail.com)
 
