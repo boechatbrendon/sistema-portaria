@@ -11,15 +11,18 @@
               d="M4 6h16M4 12h16m-7 6h7"/>
       </svg>
     </button>
-
-
+   
     <nav class="hidden md:block">
-      <ul class="flex space-x-6 text-white">
+      <ul class="flex space-x-6 text-white items-center">
         <li><a href="{{ url_for('home') }}" class="hover:text-gray-200">Dashboard</a></li>
         <li><a href="{{ url_for('listar_unidades') }}" class="hover:text-gray-200">Moradores</a></li>
-        <li class="relative group">
-          <a href="#" class="hover:text-gray-200">Encomendas</a>
-          <ul class="absolute hidden group-hover:block bg-white dark:bg-gray-700 shadow-md py-2 mt-1 rounded-md w-48">
+
+        <li class="relative">
+          <button id="desktop-encomendas-toggle" class="hover:text-gray-200 focus:outline-none cursor-pointer">
+            Encomendas
+          </button>
+          <ul id="desktop-encomendas-menu" class="absolute right-0 mt-2 bg-white dark:bg-gray-700 shadow-md rounded-md w-48 hidden z-50">
+            <li><a href="{{ url_for('historico_retirada') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Historico de Retirada</a></li>
             <li><a href="{{ url_for('cadastra_encomenda') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Nova Encomenda</a></li>
             <li><a href="{{ url_for('encomendas_pendentes') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Baixa</a></li>
           </ul>
@@ -36,6 +39,7 @@
       <li>
         <button id="services-dropdown-toggle" class="w-full text-left py-2 hover:text-sky-600">Encomendas</button>
         <ul id="services-dropdown" class="hidden pl-4">
+          <li><a href="{{ url_for('historico_retirada') }}" class="block py-2 hover:text-sky-600">Historico de Retirada</a></li>
           <li><a href="{{ url_for('cadastra_encomenda') }}" class="block py-2 hover:text-sky-600">Nova</a></li>
           <li><a href="{{ url_for('encomendas_pendentes') }}" class="block py-2 hover:text-sky-600">Baixa</a></li>
         </ul>
@@ -51,6 +55,9 @@
       const servicesToggle = document.getElementById('services-dropdown-toggle')
       const servicesDropdown = document.getElementById('services-dropdown')
 
+      const desktopEncomendasToggle = document.getElementById('desktop-encomendas-toggle')
+      const desktopEncomendasMenu = document.getElementById('desktop-encomendas-menu')
+
       if (menuToggle) {
         menuToggle.addEventListener('click', () => {
           mobileMenu.classList.toggle('hidden')
@@ -62,6 +69,17 @@
           servicesDropdown.classList.toggle('hidden')
         })
       }
+
+      if (desktopEncomendasToggle) {
+        desktopEncomendasToggle.addEventListener('click', () => {
+          desktopEncomendasMenu.classList.toggle('hidden')
+        })
+      }
+      document.addEventListener('click', (e) => {
+        if (!desktopEncomendasToggle.contains(e.target) && !desktopEncomendasMenu.contains(e.target)) {
+          desktopEncomendasMenu.classList.add('hidden')
+        }
+      })
     })
   </script>
 </header>

@@ -1,11 +1,11 @@
 from app import app, database
 from flask import render_template, flash, redirect, url_for, jsonify, request
-from app.forms import Formlogin, FormMorador, FormEncomenda
+from app.forms import Formlogin, FormMorador, FormEncomenda, FormHistoricoEncomenda
 from app.models import Usuario, Unidade, Morador, Encomenda
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 import os
-from datetime import datetime
+from datetime import datetime, time
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -152,3 +152,15 @@ def dar_baixa_encomenda(id):
     database.session.commit()
     flash("Encomenda baixada com sucesso!", "success")
     return redirect(url_for("encomendas_pendentes"))
+
+
+@app.route('/historico_retirada', methods=['GET', 'POST'])
+@login_required
+def historico_retirada():
+    form = FormHistoricoEncomenda()
+    if form.validate_on_submit():
+        dt_inicial = datetime.combine(form.data_inicial.data, time.min) 
+        dt_final = datetime.combine(form.data_final.data, time.max) 
+        encomendas = Encomenda.query.filter(Encomenda.data_retirada >= dt_inicial, Encomenda.data_retirada <= dt_final).all()
+        return render_template('historico_retirada.html', form=form, encomendas=encomendas)
+    return render_template('historico_retirada.html', form=form, encomendas=None)

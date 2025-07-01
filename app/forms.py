@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, DateField
 from wtforms.validators import DataRequired, Email, ValidationError
 from app.models import Morador
 from flask_wtf.file import FileField, FileAllowed
@@ -35,3 +35,9 @@ class FormEncomenda(FlaskForm):
     unidade = SelectField('Unidade', choices=[], coerce=int)
     nf = StringField('Nota Fiscal', validators=[DataRequired()])
     botao_cadastra =SubmitField('Cadastra Encomenda')
+
+
+class FormHistoricoEncomenda(FlaskForm):
+    data_inicial = DateField('Data inicial',format='%Y-%m-%d' ,validators=[DataRequired()])
+    data_final = DateField('Data Final',format='%Y-%m-%d' ,validators=[DataRequired()])
+    botao_busca = SubmitField('Buscar')
