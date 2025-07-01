@@ -21,7 +21,7 @@
           <a href="#" class="hover:text-gray-200">Encomendas</a>
           <ul class="absolute hidden group-hover:block bg-white dark:bg-gray-700 shadow-md py-2 mt-1 rounded-md w-48">
             <li><a href="{{ url_for('cadastra_encomenda') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Nova Encomenda</a></li>
-            <li><a href="" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Baixa</a></li>
+            <li><a href="{{ url_for('encomendas_pendentes') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Baixa</a></li>
           </ul>
         </li>
         <li><a href="{{ url_for('logout') }}" class="hover:text-red-300">Sair</a></li>
@@ -37,7 +37,7 @@
         <button id="services-dropdown-toggle" class="w-full text-left py-2 hover:text-sky-600">Encomendas</button>
         <ul id="services-dropdown" class="hidden pl-4">
           <li><a href="{{ url_for('cadastra_encomenda') }}" class="block py-2 hover:text-sky-600">Nova</a></li>
-          <li><a href="" class="block py-2 hover:text-sky-600">Baixa</a></li>
+          <li><a href="{{ url_for('encomendas_pendentes') }}" class="block py-2 hover:text-sky-600">Baixa</a></li>
         </ul>
       </li>
       <li><a href="{{ url_for('logout') }}" class="block py-2 text-red-600 hover:text-red-800">Sair</a></li>

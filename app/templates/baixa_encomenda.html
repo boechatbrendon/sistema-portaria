@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+SistemaPortaria - Baixar Encomenda
+{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-12">
+  <h2 class="text-center text-2xl font-bold text-sky-600 mb-2">📦 Controle de Encomendas</h2>
+  <p class="text-center text-gray-500 text-sm mb-6">Visualize e gerencie as encomendas pendentes por unidade.</p>
+
+  <div class="relative mb-6">
+    <input type="text" id="searchEncomendas" placeholder="Buscar por unidade, bloco, morador ou NF..."
+           class="w-full pl-12 pr-4 py-3 text-sm rounded-full shadow focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" />
+    <svg class="w-5 h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+    </svg>
+  </div>
+
+  {% for encomenda in encomendas %}
+  <div class="bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden mb-6 transition-all"
+       data-search="{{ encomenda.morador.nome }} {{ encomenda.nf }} {{ encomenda.morador.unidade.numero }} {{ encomenda.morador.unidade.bloco }}">
+    
+    <div class="flex justify-between items-center bg-sky-600 text-white px-4 py-3">
+      <h5 class="font-semibold text-sm sm:text-base">
+        🏢 Unidade {{ encomenda.morador.unidade.numero }} - {{ encomenda.morador.unidade.bloco }}
+      </h5>
+    </div>
+
+    <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-gray-800">
+        <div>
+          <h6 class="text-gray-800 dark:text-gray-100 font-semibold text-sm">📄 NF: {{ encomenda.nf }}</h6>
+          <p class="text-gray-500 dark:text-gray-300 text-xs mt-1">
+            Morador: <strong>{{ encomenda.morador.nome }}</strong>
+          </p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            Recebido em: {{ encomenda.data_recebimento.strftime('%d/%m/%Y %H:%M') }}
+          </p>
+          <span class="inline-block bg-yellow-300 text-gray-800 text-xs font-medium rounded-full px-2 py-1 mt-2">
+            ⏳ Pendente há {{ (hora - encomenda.data_recebimento).days }} dia{{ 's' if (hora - encomenda.data_recebimento).days != 1 }}
+          </span>
+        </div>
+        <div>
+
+          <button onclick="openModal('modalBaixa{{ encomenda.id }}')"
+                  class="bg-green-600 hover:bg-green-700 text-white text-xs px-4 py-2 rounded-full shadow">
+            <i class="bi bi-check-circle-fill me-1"></i> Dar Baixa
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="modalBaixa{{ encomenda.id }}" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <button onclick="closeModal('modalBaixa{{ encomenda.id }}')" class="absolute top-2 right-3 text-gray-500 hover:text-red-600 text-xl">&times;</button>
+        
+        <form action="{{ url_for('dar_baixa_encomenda', id=encomenda.id) }}" method="POST">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Confirmar entrega da NF: <strong>{{ encomenda.nf }}</strong></h3>
+          
+          <label class="block text-sm text-gray-700 dark:text-gray-200 mb-1">Selecione quem retirou:</label>
+          <select name="retirado_por" required
+                  class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white dark:bg-gray-700 dark:text-white">
+            <option value="">Escolha um morador</option>
+            {% for morador in encomenda.morador.unidade.moradores %}
+              <option value="{{ morador.nome }}" {% if encomenda.morador.id == morador.id %}selected{% endif %}>
+                {{ morador.nome }}
+              </option>
+            {% endfor %}
+          </select>
+          
+          <div class="mt-6 flex justify-end gap-3">
+            <button type="button" onclick="closeModal('modalBaixa{{ encomenda.id }}')"
+                    class="text-sm px-4 py-2 bg-gray-300 dark:bg-gray-600 text-black dark:text-white rounded hover:bg-gray-400 dark:hover:bg-gray-500">Cancelar</button>
+            <button type="submit"
+                    class="text-sm px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Confirmar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.remove("hidden")
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.add("hidden")
+  }
+
+  document.getElementById('searchEncomendas').addEventListener('input', function () {
+    const termo = this.value.toLowerCase()
+    const cards = document.querySelectorAll('[data-search]')
+    cards.forEach(function (card) {
+      const texto = card.getAttribute('data-search').toLowerCase()
+      card.style.display = texto.includes(termo) ? 'block' : 'none'
+    })
+  })
+</script>
+{% endblock %}

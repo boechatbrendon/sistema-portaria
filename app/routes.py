@@ -133,3 +133,22 @@ def cadastra_encomenda():
         return redirect(url_for('home'))
     
     return render_template('cadastra_encomenda.html', unidades=unidades)
+
+
+@app.route('/encomendas_pendentes')
+@login_required
+def encomendas_pendentes():
+    encomendas = Encomenda.query.filter_by(status='Pendente').all()
+    hora = datetime.now()
+    return render_template('baixa_encomenda.html', encomendas=encomendas, hora=hora)
+
+
+@app.route("/dar-baixa/<int:id>", methods=["GET", "POST"])
+def dar_baixa_encomenda(id):
+    encomenda = Encomenda.query.get(id)
+    encomenda.status = "Entregue"
+    encomenda.data_retirada = datetime.now()
+    encomenda.retirado_por = request.form["retirado_por"]
+    database.session.commit()
+    flash("Encomenda baixada com sucesso!", "success")
+    return redirect(url_for("baixa_encomenda"))
