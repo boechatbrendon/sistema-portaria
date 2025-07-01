@@ -1,12 +1,15 @@
+from dotenv import load_dotenv
+load_dotenv()
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+import os
 
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = '2caab23718c75c40096efa7832d60f6eec7f7d50fda2899df091df3afc08df4f'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 app.config["UPLOAD_FOLDER"] = "static/fotos_moradores"
 
 database = SQLAlchemy(app)
