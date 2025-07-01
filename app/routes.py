@@ -151,4 +151,4 @@ def dar_baixa_encomenda(id):
     encomenda.retirado_por = request.form["retirado_por"]
     database.session.commit()
     flash("Encomenda baixada com sucesso!", "success")
-    return redirect(url_for("baixa_encomenda"))
+    return redirect(url_for("encomendas_pendentes"))
