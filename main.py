@@ -108,8 +108,8 @@ unidades = [
 
 ]
 with app.app_context():
+    database.create_all()
     for u in unidades:
-        unidade_existente = Unidade.query.filter_by(numero=u['numero'], bloco=u['bloco']).first()
         nova = Unidade(numero=u['numero'], bloco=u['bloco'])
         database.session.add(nova)
     database.session.commit()
